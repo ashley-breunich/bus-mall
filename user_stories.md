@@ -1,10 +1,10 @@
-# Bus Mall User Stories
+# BusMall User Stories
 
 ### Marketing Research Team
 1. As a member of the marketing research team, I want to know how many times each image was clicked. 
 2. As a member of the marketing research team, I also want to know the percentage of times an item was clicked on.
 3. As a member of the marketing research team, I want this data to be accurate and presented in a creative and clear way so I can easily tell which products are the most popular. 
-4. As a member of the marketing research team, I want to be able to aggregate this information in order to better tailor the content in the Bus Mall catalogue.
+4. As a member of the marketing research team, I want to be able to aggregate this information in order to better tailor the content in the BusMall catalogue.
 
 ### The Developer
 1. As a developer, I want to create a webpage that displays three random product images side-by-side. I want the user to be able to click on which image they would most like to purchase.
