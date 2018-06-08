@@ -13,8 +13,6 @@
 //we need to make sure the images do not repeat
 //all the DOM appending
 
-Product.names = ['bag', 'banana', 'bathroom', 'boots', 'breakfast', 'bubblegum', 'chair', 'cthulhu', 'dog-duck', 'dragon', 'pen', 'pet-sweep', 'scissors', 'shark', 'sweep', 'tauntaun', 'unicorn', 'usb', 'water-can', 'wine-glass'];
-
 Product.all = [];
 Product.container = document.getElementById('image_container');
 Product.justViewed = [];
@@ -22,22 +20,42 @@ Product.pics = [document.getElementById('left'), document.getElementById('center
 Product.tally = document.getElementById('tally');
 Product.totalClicks = 0;
 
-function Product(name) {
+function Product(filepath, name) {
+  this.filepath = filepath;
   this.name = name;
-  this.path = 'img/' + name + '.jpg';
   this.votes = 0;
   this.views = 0;
   Product.all.push(this);
 }
 
 //each of the product names is now an object
-for(var i = 0; i < Product.names.length; i++){
-  new Product(Product.names[i]);
+function createProducts() {
+  new Product('img/bag.jpg', 'Bag');
+  new Product('img/banana.jpg', 'Banana');
+  new Product('img/bathroom.jpg', 'Bathroom');
+  new Product('img/boots.jpg', 'Boots');
+  new Product('img/breakfast.jpg', 'Breakfast');
+  new Product('img/bubblegum.jpg', 'Bubble Gum');
+  new Product('img/chair.jpg', 'Chair');
+  new Product('img/cthulhu.jpg', 'Cthulhu');
+  new Product('img/dog-duck.jpg', 'Dog & Duch');
+  new Product('img/dragon.jpg', 'Dragon');
+  new Product('img/pen.jpg', 'Pen');
+  new Product('img/pet-sweep.jpg', 'Pet Sweep');
+  new Product('img/scissors.jpg', 'Scissors');
+  new Product('img/shark.jpg', 'Shark');
+  new Product('img/sweep.png', 'Sweep');
+  new Product('img/tauntaun.jpg', 'Tauntaun');
+  new Product('img/unicorn.jpg', 'Unicorn');
+  new Product('img/usb.gif', 'USB');
+  new Product('img/water-can.jpg', 'Water Can');
+  new Product('img/wine-glass.jpg', 'Wine Glass');
 }
+createProducts();
 
 //create make random function
 function makeRandom() {
-  return Math.floor(Math.random() * Product.names.length); //Going through the length of the names array
+  return Math.floor(Math.random() * Product.all.length);
 }
 
 function displayPics() {
@@ -62,7 +80,7 @@ function displayPics() {
   }
   //take it to the DOM
   for(var i = 0; i < 3; i++) {
-    Product.pics[i].src = Product.all[currentlyShowing[i]].path;
+    Product.pics[i].src = Product.all[currentlyShowing[i]].filepath;
     Product.pics[i].id = Product.all[currentlyShowing[i]].name;
     Product.all[currentlyShowing[i]].views += 1;
     Product.justViewed[i] = currentlyShowing[i];
@@ -84,7 +102,7 @@ function handleClick(event) {
   }
   //start to add up the total clicks
   Product.totalClicks += 1;
-  for (var i = 0; i < Product.names.length; i++) {
+  for (var i = 0; i < Product.all.length; i++) {
     if(event.target.id === Product.all[i].name) {
       Product.all[i].votes += 1;
       console.log(event.target.id + ' has ' + Product.all[i].votes + ' votes in ' + Product.all[i].views + ' views.');
