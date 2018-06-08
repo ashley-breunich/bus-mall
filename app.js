@@ -20,6 +20,7 @@ Product.pics = [document.getElementById('left'), document.getElementById('center
 Product.tally = document.getElementById('tally');
 Product.totalClicks = 0;
 
+//constructor function - template for Product creation
 function Product(filepath, name) {
   this.filepath = filepath;
   this.name = name;
@@ -62,19 +63,19 @@ function displayPics() {
   var currentlyShowing = [];
   //make the left image unique
   currentlyShowing[0] = makeRandom();
-  while(Product.justViewed.indexOf(currentlyShowing[0]) !== -1) {
+  while(currentlyShowing[0] === Product.justViewed[0] || currentlyShowing[0] === Product.justViewed[1] || currentlyShowing[0] === Product.justViewed[2]) {
     console.error('Duplicate, rerun!');
     currentlyShowing[0] = makeRandom();
   }
   //make the center image unique
   currentlyShowing[1] = makeRandom();
-  while(currentlyShowing[0] === currentlyShowing[1] || Product.justViewed.indexOf(currentlyShowing[1]) !== -1) {
+  while(currentlyShowing[1] === currentlyShowing[0] || currentlyShowing[1] === Product.justViewed[0] || currentlyShowing[1] === Product.justViewed[1] || currentlyShowing[1] === Product.justViewed[2]) {
     console.error('Duplicate at center or in prior view! Re run!');
     currentlyShowing[1] = makeRandom();
   }
   //make the right image unique
   currentlyShowing[2] = makeRandom();
-  while(currentlyShowing[0] === currentlyShowing[2] || currentlyShowing[1] === currentlyShowing[2] || Product.justViewed.indexOf(currentlyShowing[2]) !== -1) {
+  while(currentlyShowing[2] === currentlyShowing[0] || currentlyShowing[2] === currentlyShowing[1] || currentlyShowing[2] === Product.justViewed[0] || currentlyShowing[2] === Product.justViewed[1] || currentlyShowing[2] === Product.justViewed[2]) {
     console.error('Duplicate at right! Re run it.');
     currentlyShowing[2] = makeRandom();
   }
@@ -89,25 +90,21 @@ function displayPics() {
 
 //event listener for keeping track of total clicks on images
 function handleClick(event) {
-  console.log(Product.totalClicks, 'total clicks');
   //make the click stop at 25
   if(Product.totalClicks > 24) {
     Product.container.removeEventListener('click', handleClick);
     //show the list after the last click
     showTally();
   }
-  //this is how we direct the user to click on a specific image
-  if(event.target.id === 'image_container'){
-    return alert('Need to click on an image.');
-  }
   //start to add up the total clicks
-  Product.totalClicks += 1;
   for (var i = 0; i < Product.all.length; i++) {
     if(event.target.id === Product.all[i].name) {
       Product.all[i].votes += 1;
-      console.log(event.target.id + ' has ' + Product.all[i].votes + ' votes in ' + Product.all[i].views + ' views.');
+      console.log(event.target.id + ' has ' + Product.all[i].votes + ' votes and has been viewed ' + Product.all[i].views + ' times.');
     }
   }
+  Product.totalClicks += 1;
+  console.log('The user has clicked on ' + Product.totalClicks + ' photos.');
   displayPics();
 }
 
