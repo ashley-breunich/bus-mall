@@ -104,7 +104,8 @@ function handleClick(event) {
     pushPercentage();
     console.log(Product.finalViews);
     console.log(Product.percentage);
-    renderChart();
+    renderFirstChart();
+    renderSectionChart();
   }
 
   //start to add up the total clicks
@@ -135,8 +136,8 @@ function pushPercentage() {
   }
 }
 
-//add the chart to the code
-function renderChart() {
+//add the first chart to the code
+function renderFirstChart() {
   var ctx = document.getElementById('myChart').getContext('2d');
   var myChart = new Chart(ctx, {
     type: 'bar',
@@ -165,6 +166,40 @@ function renderChart() {
         yAxes: [{
           ticks: {
             stepSize: 1,
+            min: 0,
+            beginAtZero: true,
+          }
+        }]
+      }
+    }
+  });
+}
+
+//add the second chart to the code
+function renderSectionChart() {
+  var ctx = document.getElementById('secondChart').getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: Product.names,
+      datasets: [{
+        label: '% of Times Clicked When Viewed',
+        data: Product.percentage,
+        backgroundColor: 'rgba(178, 144, 0, .7)',
+      }],
+    },
+    options: {
+      scales: {
+        xAxes: [{
+          ticks: {
+            stepSize: 1,
+            min: 0,
+            autoSkip: false
+          }
+        }],
+        yAxes: [{
+          ticks: {
+            stepSize: 10,
             min: 0,
             beginAtZero: true,
           }
