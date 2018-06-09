@@ -7,6 +7,8 @@ Product.justViewed = [];
 Product.pics = [document.getElementById('left'), document.getElementById('center'), document.getElementById('right')];
 Product.tally = document.getElementById('tally');
 Product.totalClicks = 0;
+Product.names = [];
+Product.finalClicks = [];
 Product.finalViews = [];
 Product.percentage = [];
 
@@ -17,6 +19,7 @@ function Product(filepath, name) {
   this.votes = 0;
   this.views = 0;
   Product.all.push(this);
+  Product.names.push(this.name);
 }
 
 //each of the product names is now an object
@@ -114,7 +117,8 @@ displayPics();
 
 function pushFinalTally() {
   for(var i = 0; i < Product.all.length; i++){
-    Product.finalViews.push(Product.all[i].votes);
+    Product.finalClicks.push(Product.all[i].votes);
+    Product.finalViews.push(Product.all[i].views);
   }
 }
 
@@ -131,33 +135,17 @@ function renderChart() {
   var myChart = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: ['R2-D2 Suitcase', 'Banana Slicer', 'iPad TP Stand', 'Rain Boots', 'Breakfast Oven', 'Meatball Bubble Gum', 'Red Chair', 'Cthulhu', 'Dog Duckbill', 'Dragon Meat', 'Utensil Pen Cap', 'Pet Sweep', 'Pizza Scissors', 'Shark Blanket', 'Sweep Onesie', 'Tauntaun Blanket', 'Unicorn Meat', 'Tentacle USB', 'Watering Can', 'Wine Glass'],
+      labels: Product.names,
       datasets: [{
         label: '# of Votes',
+        data: Product.finalClicks,
+        backgroundColor: 'rgba(187, 190, 255, .8)',
+      },
+      {
+        label: '# of Views',
         data: Product.finalViews,
-        backgroundColor: [
-          'rgba(187, 190, 255, .8)',
-          'rgba(255, 241, 184, .8)',
-          'rgba(187, 190, 255, .8)',
-          'rgba(255, 241, 184, .8)',
-          'rgba(187, 190, 255, .8)',
-          'rgba(255, 241, 184, .8)',
-          'rgba(187, 190, 255, .8)',
-          'rgba(255, 241, 184, .8)',
-          'rgba(187, 190, 255, .8)',
-          'rgba(255, 241, 184, .8)',
-          'rgba(187, 190, 255, .8)',
-          'rgba(255, 241, 184, .8)',
-          'rgba(187, 190, 255, .8)',
-          'rgba(255, 241, 184, .8)',
-          'rgba(187, 190, 255, .8)',
-          'rgba(255, 241, 184, .8)',
-          'rgba(187, 190, 255, .8)',
-          'rgba(255, 241, 184, .8)',
-          'rgba(187, 190, 255, .8)',
-          'rgba(255, 241, 184, .8)',
-        ],
-      }]
+        backgroundColor: 'rgba(255, 241, 184, .8)',
+      }],
     },
     options: {
       scales: {
