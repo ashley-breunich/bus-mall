@@ -86,15 +86,20 @@ function displayPics() {
   }
 }
 
+function roundTicker() {
+  var ticker = document.getElementById('ticker');
+  ticker.textContent = 'You have completed ' + Product.totalClicks + ' of 25 rounds.';
+}
+
 //event listener for keeping track of total clicks on images
 function handleClick(event) {
 
   //make the click stop at 25
-  if(Product.totalClicks > 24) {
+  if(Product.totalClicks === 24) {
     Product.container.removeEventListener('click', handleClick);
     //show the list after the last click
     var remove = document.getElementById('image_container');
-    remove.innerHTML = '';
+    remove.textContent = '';
     pushFinalTally();
     pushPercentage();
     console.log(Product.finalViews);
@@ -110,6 +115,7 @@ function handleClick(event) {
     }
   }
   Product.totalClicks += 1;
+  roundTicker();
   console.log('The user has clicked on ' + Product.totalClicks + ' photos.');
   displayPics();
 }
@@ -139,12 +145,12 @@ function renderChart() {
       datasets: [{
         label: '# of Votes',
         data: Product.finalClicks,
-        backgroundColor: 'rgba(187, 190, 255, .8)',
+        backgroundColor: 'rgba(187, 190, 255, .9)',
       },
       {
         label: '# of Views',
         data: Product.finalViews,
-        backgroundColor: 'rgba(255, 241, 184, .8)',
+        backgroundColor: 'rgba(255, 241, 184, .9)',
       }],
     },
     options: {
