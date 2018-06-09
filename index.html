@@ -3,18 +3,21 @@
     <head>
         <title>BusMall Product Study</title>
         <link rel="stylesheet" href="style.css">
-        <link href="https://fonts.googleapis.com/css?family=Oswald:200,300,400,500,600" rel="stylesheet">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
-    </head>
-    <body id="all">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300i,700" rel="stylesheet">
+        </head>
+    <body>
         <h1>BusMall Product Study</h1>
-        <p>Thank you for participating in this product study! Please click on the image you would most likely want to purchase.</p>
+        <p>Thank you for participating in this product study! In order to better serve our customers, we would like your opinion on which products you would most likely purchase from a set of options. Please click on the image you like the best. After 25 rounds, you will see your results populate.</p>
+        <p class="bold">Your insights will help us better curate the content in our Busmall catalogue.</p>
+        <p id="ticker"></p>
         <div id="image_container">
             <img src="" id="left">
             <img src="" id="center">
             <img src="" id="right">
         </div>
-        <ul id="tally"></ul>
+        <canvas id="myChart"></canvas>
+        <canvas id="secondChart"></canvas>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js' type="text/javascript"></script>
+        <script src="app.js"></script>
     </body>
-    <script src="app.js"></script>
 </html>

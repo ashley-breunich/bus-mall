@@ -7,7 +7,10 @@ Product.justViewed = [];
 Product.pics = [document.getElementById('left'), document.getElementById('center'), document.getElementById('right')];
 Product.tally = document.getElementById('tally');
 Product.totalClicks = 0;
-Product.FinalViews = [];
+Product.names = [];
+Product.finalClicks = [];
+Product.finalViews = [];
+Product.percentage = [];
 
 //constructor function - template for Product creation
 function Product(filepath, name) {
@@ -16,6 +19,7 @@ function Product(filepath, name) {
   this.votes = 0;
   this.views = 0;
   Product.all.push(this);
+  Product.names.push(this.name);
 }
 
 //each of the product names is now an object
@@ -44,7 +48,7 @@ function createProducts() {
 createProducts();
 
 //make random function
-function makeRandom() {
+function randomIndex() {
   return Math.floor(Math.random() * Product.all.length);
 }
 
@@ -53,27 +57,27 @@ function displayPics() {
   var currentlyShowing = [];
 
   //make the left image unique
-  currentlyShowing[0] = makeRandom();
+  currentlyShowing[0] = randomIndex();
   while(currentlyShowing[0] === Product.justViewed[0] || currentlyShowing[0] === Product.justViewed[1] || currentlyShowing[0] === Product.justViewed[2]) {
-    console.error('Duplicate in prior view. Re run it!');
-    currentlyShowing[0] = makeRandom();
+    console.error('Duplicate in prior view. Get new image!');
+    currentlyShowing[0] = randomIndex();
   }
 
   //make the center image unique
-  currentlyShowing[1] = makeRandom();
+  currentlyShowing[1] = randomIndex();
   while(currentlyShowing[1] === currentlyShowing[0] || currentlyShowing[1] === Product.justViewed[0] || currentlyShowing[1] === Product.justViewed[1] || currentlyShowing[1] === Product.justViewed[2]) {
-    console.error('Duplicate at center or in prior view! Re run!');
-    currentlyShowing[1] = makeRandom();
+    console.error('Duplicate at center or in prior view! Get new image!');
+    currentlyShowing[1] = randomIndex();
   }
 
   //make the right image unique
-  currentlyShowing[2] = makeRandom();
+  currentlyShowing[2] = randomIndex();
   while(currentlyShowing[2] === currentlyShowing[0] || currentlyShowing[2] === currentlyShowing[1] || currentlyShowing[2] === Product.justViewed[0] || currentlyShowing[2] === Product.justViewed[1] || currentlyShowing[2] === Product.justViewed[2]) {
-    console.error('Duplicate at right or in prior view! Re run it.');
-    currentlyShowing[2] = makeRandom();
+    console.error('Duplicate at right or in prior view! Get new image!');
+    currentlyShowing[2] = randomIndex();
   }
 
-  //take it to the DOM
+  //Write it to the page
   for(var i = 0; i < 3; i++) {
     Product.pics[i].src = Product.all[currentlyShowing[i]].filepath;
     Product.pics[i].id = Product.all[currentlyShowing[i]].name;
@@ -82,17 +86,26 @@ function displayPics() {
   }
 }
 
+function roundTicker() {
+  var ticker = document.getElementById('ticker');
+  ticker.textContent = 'You have completed ' + Product.totalClicks + ' of 25 rounds.';
+}
+
 //event listener for keeping track of total clicks on images
 function handleClick(event) {
 
   //make the click stop at 25
-  if(Product.totalClicks > 24) {
+  if(Product.totalClicks === 24) {
     Product.container.removeEventListener('click', handleClick);
     //show the list after the last click
-    // pushFinalTally();
-    showTally();
-    console.log(Product.FinalViews);
-    // renderChart();
+    var remove = document.getElementById('image_container');
+    remove.textContent = '';
+    pushFinalTally();
+    pushPercentage();
+    console.log(Product.finalViews);
+    console.log(Product.percentage);
+    renderFirstChart();
+    renderSectionChart();
   }
 
   //start to add up the total clicks
@@ -103,67 +116,98 @@ function handleClick(event) {
     }
   }
   Product.totalClicks += 1;
+  roundTicker();
   console.log('The user has clicked on ' + Product.totalClicks + ' photos.');
   displayPics();
 }
 displayPics();
 
-// function pushFinalTally() {
-//   for(var i = 0; i < Product.all.length; i++){
-//     Product.FinalViews.push(Product.all[i].votes);
-//   }
-// }
-
-//show the tally using the list in the DOM once the event listener has been removed
-function showTally() {
-  for(var i = 0; i < Product.all.length; i++) {
-    var liEl = document.createElement('li');
-    liEl.textContent = Product.all[i].name + ' has ' + Product.all[i].votes + ' votes and was viewed ' + Product.all[i].views + ' times.';
-    //append the list item to the Product.tally created above globally for the ul
-    Product.tally.appendChild(liEl);
+function pushFinalTally() {
+  for(var i = 0; i < Product.all.length; i++){
+    Product.finalClicks.push(Product.all[i].votes);
+    Product.finalViews.push(Product.all[i].views);
   }
 }
 
-// //add the chart to the code
-// function renderChart() {
-//   var ctx = document.getElementById('myChart').getContext('2d');
-//   var myChart = new Chart(ctx, {
-//     type: 'bar',
-//     data: {
-//       labels: ['R2-D2 Suitcase', 'Banana Slicer', 'iPad Toilet Paper Stand', 'Toeless Rain Boots', 'Breakfast Oven', 'Meatball Bubble Gum', 'Red Rounded Chair', 'Cthulhu', 'Dog Duckbill', 'Dragon Meat Can', 'Utensil Pen Cap', 'Pet Sweep', 'Pizza Scissors', 'Shark Sleeping Bag', 'Sweep Onesie', 'Tauntaun Sleeping Bag', 'Unicorn Meat Can', 'Tentacle USB', 'Watering Can', 'Wine Glass'],
-//       datasets: [{
-//         label: '# of Votes',
-//         data: [Product.FinalViews],
-//         backgroundColor: [
-//           'rgba(255, 99, 132, 0.2)',
-//           'rgba(54, 162, 235, 0.2)',
-//           'rgba(255, 206, 86, 0.2)',
-//           'rgba(75, 192, 192, 0.2)',
-//           'rgba(153, 102, 255, 0.2)',
-//           'rgba(255, 159, 64, 0.2)'
-//         ],
-//         borderColor: [
-//           'rgba(255,99,132,1)',
-//           'rgba(54, 162, 235, 1)',
-//           'rgba(255, 206, 86, 1)',
-//           'rgba(75, 192, 192, 1)',
-//           'rgba(153, 102, 255, 1)',
-//           'rgba(255, 159, 64, 1)'
-//         ],
-//         borderWidth: 1
-//       }]
-//     },
-//     options: {
-//       scales: {
-//         yAxes: [{
-//           ticks: {
-//             beginAtZero: true
-//           }
-//         }]
-//       }
-//     }
-//   });
-// }
+function pushPercentage() {
+  for (var i = 0; i < Product.all.length; i++){
+    var percentage = (Math.floor((Product.all[i].votes / Product.all[i].views) * 100));
+    Product.percentage.push(percentage);
+  }
+}
+
+//add the first chart to the code
+function renderFirstChart() {
+  var ctx = document.getElementById('myChart').getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: Product.names,
+      datasets: [{
+        label: '# of Votes',
+        data: Product.finalClicks,
+        backgroundColor: 'rgba(187, 190, 255, .9)',
+      },
+      {
+        label: '# of Views',
+        data: Product.finalViews,
+        backgroundColor: 'rgba(255, 241, 184, .9)',
+      }],
+    },
+    options: {
+      scales: {
+        xAxes: [{
+          ticks: {
+            stepSize: 1,
+            min: 0,
+            autoSkip: false
+          }
+        }],
+        yAxes: [{
+          ticks: {
+            stepSize: 1,
+            min: 0,
+            beginAtZero: true,
+          }
+        }]
+      }
+    }
+  });
+}
+
+//add the second chart to the code
+function renderSectionChart() {
+  var ctx = document.getElementById('secondChart').getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: Product.names,
+      datasets: [{
+        label: '% of Times Clicked When Viewed',
+        data: Product.percentage,
+        backgroundColor: 'rgba(178, 144, 0, .7)',
+      }],
+    },
+    options: {
+      scales: {
+        xAxes: [{
+          ticks: {
+            stepSize: 1,
+            min: 0,
+            autoSkip: false
+          }
+        }],
+        yAxes: [{
+          ticks: {
+            stepSize: 10,
+            min: 0,
+            beginAtZero: true,
+          }
+        }]
+      }
+    }
+  });
+}
 
 //create Event handler
 Product.container.addEventListener('click', handleClick);
