@@ -55,21 +55,21 @@ function displayPics() {
   //make the left image unique
   currentlyShowing[0] = makeRandom();
   while(currentlyShowing[0] === Product.justViewed[0] || currentlyShowing[0] === Product.justViewed[1] || currentlyShowing[0] === Product.justViewed[2]) {
-    console.error('Duplicate in prior view. Re run it!');
+    console.error('Duplicate in prior view. Get new image!');
     currentlyShowing[0] = makeRandom();
   }
 
   //make the center image unique
   currentlyShowing[1] = makeRandom();
   while(currentlyShowing[1] === currentlyShowing[0] || currentlyShowing[1] === Product.justViewed[0] || currentlyShowing[1] === Product.justViewed[1] || currentlyShowing[1] === Product.justViewed[2]) {
-    console.error('Duplicate at center or in prior view! Re run!');
+    console.error('Duplicate at center or in prior view! Get new image!');
     currentlyShowing[1] = makeRandom();
   }
 
   //make the right image unique
   currentlyShowing[2] = makeRandom();
   while(currentlyShowing[2] === currentlyShowing[0] || currentlyShowing[2] === currentlyShowing[1] || currentlyShowing[2] === Product.justViewed[0] || currentlyShowing[2] === Product.justViewed[1] || currentlyShowing[2] === Product.justViewed[2]) {
-    console.error('Duplicate at right or in prior view! Re run it.');
+    console.error('Duplicate at right or in prior view! Get new image!');
     currentlyShowing[2] = makeRandom();
   }
 
@@ -130,34 +130,27 @@ function renderChart() {
   var myChart = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: ['R2-D2 Suitcase', 'Banana Slicer', 'iPad Toilet Paper Stand', 'Toeless Rain Boots', 'Breakfast Oven', 'Meatball Bubble Gum', 'Red Rounded Chair', 'Cthulhu', 'Dog Duckbill', 'Dragon Meat Can', 'Utensil Pen Cap', 'Pet Sweep', 'Pizza Scissors', 'Shark Sleeping Bag', 'Sweep Onesie', 'Tauntaun Sleeping Bag', 'Unicorn Meat Can', 'Tentacle USB', 'Watering Can', 'Wine Glass'],
+      labels: ['R2-D2 Suitcase', 'Banana Slicer', 'iPad TP Stand', 'Rain Boots', 'Breakfast Oven', 'Meatball Bubble Gum', 'Red Chair', 'Cthulhu', 'Dog Duckbill', 'Dragon Meat', 'Utensil Pen Cap', 'Pet Sweep', 'Pizza Scissors', 'Shark Blanket', 'Sweep Onesie', 'Tauntaun Blanket', 'Unicorn Meat', 'Tentacle USB', 'Watering Can', 'Wine Glass'],
       datasets: [{
         label: '# of Votes',
         data: Product.FinalViews,
         backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)'
+          'rgba(255, 99, 132)'
         ],
-        borderColor: [
-          'rgba(255,99,132,1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)'
-        ],
-        borderWidth: 1
       }]
     },
     options: {
       scales: {
+        xAxes: [{
+          ticks: {
+            stepSize: 1,
+            min: 0,
+            autoSkip: false
+          }
+        }],
         yAxes: [{
           ticks: {
-            beginAtZero: true
+            beginAtZero: true,
           }
         }]
       }
