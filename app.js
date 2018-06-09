@@ -7,6 +7,7 @@ Product.justViewed = [];
 Product.pics = [document.getElementById('left'), document.getElementById('center'), document.getElementById('right')];
 Product.tally = document.getElementById('tally');
 Product.totalClicks = 0;
+Product.FinalViews = [];
 
 //constructor function - template for Product creation
 function Product(filepath, name) {
@@ -19,25 +20,25 @@ function Product(filepath, name) {
 
 //each of the product names is now an object
 function createProducts() {
-  new Product('img/bag.jpg', 'Bag');
-  new Product('img/banana.jpg', 'Banana');
-  new Product('img/bathroom.jpg', 'Bathroom');
-  new Product('img/boots.jpg', 'Boots');
-  new Product('img/breakfast.jpg', 'Breakfast');
-  new Product('img/bubblegum.jpg', 'Bubble Gum');
-  new Product('img/chair.jpg', 'Chair');
+  new Product('img/bag.jpg', 'R2-D2 Suitcase');
+  new Product('img/banana.jpg', 'Banana Slicer');
+  new Product('img/bathroom.jpg', 'iPad Toilet Paper Stand');
+  new Product('img/boots.jpg', 'Toeless Rain Boots');
+  new Product('img/breakfast.jpg', 'Breakfast Oven');
+  new Product('img/bubblegum.jpg', 'Meatball Bubble Gum');
+  new Product('img/chair.jpg', 'Red Rounded Chair');
   new Product('img/cthulhu.jpg', 'Cthulhu');
-  new Product('img/dog-duck.jpg', 'Dog & Duch');
-  new Product('img/dragon.jpg', 'Dragon');
-  new Product('img/pen.jpg', 'Pen');
+  new Product('img/dog-duck.jpg', 'Dog Duckbill');
+  new Product('img/dragon.jpg', 'Dragon Meat Can');
+  new Product('img/pen.jpg', 'Utensil Pen Cap');
   new Product('img/pet-sweep.jpg', 'Pet Sweep');
-  new Product('img/scissors.jpg', 'Scissors');
-  new Product('img/shark.jpg', 'Shark');
-  new Product('img/sweep.png', 'Sweep');
-  new Product('img/tauntaun.jpg', 'Tauntaun');
-  new Product('img/unicorn.jpg', 'Unicorn');
-  new Product('img/usb.gif', 'USB');
-  new Product('img/water-can.jpg', 'Water Can');
+  new Product('img/scissors.jpg', 'Pizza Scissors');
+  new Product('img/shark.jpg', 'Shark Sleeping Bag');
+  new Product('img/sweep.png', 'Sweep Onesie');
+  new Product('img/tauntaun.jpg', 'Tauntaun Sleeping Bag');
+  new Product('img/unicorn.jpg', 'Unicorn Meat Can');
+  new Product('img/usb.gif', 'Tentacle USB');
+  new Product('img/water-can.jpg', 'Watering Can');
   new Product('img/wine-glass.jpg', 'Wine Glass');
 }
 createProducts();
@@ -83,14 +84,15 @@ function displayPics() {
 
 //event listener for keeping track of total clicks on images
 function handleClick(event) {
-  
+
   //make the click stop at 25
   if(Product.totalClicks > 24) {
     Product.container.removeEventListener('click', handleClick);
     //show the list after the last click
-    showTally();
+    pushFinalTally();
+    renderChart();
   }
-  
+
   //start to add up the total clicks
   for (var i = 0; i < Product.all.length; i++) {
     if(event.target.id === Product.all[i].name) {
@@ -104,14 +106,61 @@ function handleClick(event) {
 }
 displayPics();
 
-//show the tally using the list in the DOM once the event listener has been removed
-function showTally() {
-  for(var i = 0; i < Product.all.length; i++) {
-    var liEl = document.createElement('li');
-    liEl.textContent = Product.all[i].name + ' has ' + Product.all[i].votes + ' votes and was viewed ' + Product.all[i].views + ' times.';
-    //append the list item to the Product.tally created above globally for the ul
-    Product.tally.appendChild(liEl);
+function pushFinalTally() {
+  for(var i = 0; i < Product.all.length; i++){
+    Product.FinalViews.push(Product.all[i].votes);
   }
+}
+
+//show the tally using the list in the DOM once the event listener has been removed
+// function showTally() {
+//   for(var i = 0; i < Product.all.length; i++) {
+//     var liEl = document.createElement('li');
+//     liEl.textContent = Product.all[i].name + ' has ' + Product.all[i].votes + ' votes and was viewed ' + Product.all[i].views + ' times.';
+//     //append the list item to the Product.tally created above globally for the ul
+//     Product.tally.appendChild(liEl);
+//   }
+// }
+
+//add the chart to the code
+function renderChart() {
+  var ctx = document.getElementById('myChart').getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['R2-D2 Suitcase', 'Banana Slicer', 'iPad Toilet Paper Stand', 'Toeless Rain Boots', 'Breakfast Oven', 'Meatball Bubble Gum', 'Red Rounded Chair', 'Cthulhu', 'Dog Duckbill', 'Dragon Meat Can', 'Utensil Pen Cap', 'Pet Sweep', 'Pizza Scissors', 'Shark Sleeping Bag', 'Sweep Onesie', 'Tauntaun Sleeping Bag', 'Unicorn Meat Can', 'Tentacle USB', 'Watering Can', 'Wine Glass'],
+      datasets: [{
+        label: '# of Votes',
+        data: [Product.FinalViews],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255,99,132,1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
 }
 
 //create Event handler
