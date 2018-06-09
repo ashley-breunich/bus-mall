@@ -7,7 +7,8 @@ Product.justViewed = [];
 Product.pics = [document.getElementById('left'), document.getElementById('center'), document.getElementById('right')];
 Product.tally = document.getElementById('tally');
 Product.totalClicks = 0;
-Product.FinalViews = [];
+Product.finalViews = [];
+Product.percentage = [];
 
 //constructor function - template for Product creation
 function Product(filepath, name) {
@@ -92,7 +93,9 @@ function handleClick(event) {
     var remove = document.getElementById('image_container');
     remove.innerHTML = '';
     pushFinalTally();
-    console.log(Product.FinalViews);
+    pushPercentage();
+    console.log(Product.finalViews);
+    console.log(Product.percentage);
     renderChart();
   }
 
@@ -111,7 +114,14 @@ displayPics();
 
 function pushFinalTally() {
   for(var i = 0; i < Product.all.length; i++){
-    Product.FinalViews.push(Product.all[i].votes);
+    Product.finalViews.push(Product.all[i].votes);
+  }
+}
+
+function pushPercentage() {
+  for (var i = 0; i < Product.all.length; i++){
+    var percentage = ((Product.all[i].votes / Product.all[i].views) * 100);
+    Product.percentage.push(percentage);
   }
 }
 
@@ -124,7 +134,7 @@ function renderChart() {
       labels: ['R2-D2 Suitcase', 'Banana Slicer', 'iPad TP Stand', 'Rain Boots', 'Breakfast Oven', 'Meatball Bubble Gum', 'Red Chair', 'Cthulhu', 'Dog Duckbill', 'Dragon Meat', 'Utensil Pen Cap', 'Pet Sweep', 'Pizza Scissors', 'Shark Blanket', 'Sweep Onesie', 'Tauntaun Blanket', 'Unicorn Meat', 'Tentacle USB', 'Watering Can', 'Wine Glass'],
       datasets: [{
         label: '# of Votes',
-        data: Product.FinalViews,
+        data: Product.finalViews,
         backgroundColor: [
           'rgba(187, 190, 255, .8)',
           'rgba(255, 241, 184, .8)',
@@ -160,6 +170,8 @@ function renderChart() {
         }],
         yAxes: [{
           ticks: {
+            stepSize: 1,
+            min: 0,
             beginAtZero: true,
           }
         }]
