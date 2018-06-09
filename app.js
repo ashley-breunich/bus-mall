@@ -131,7 +131,7 @@ function pushFinalTally() {
 
 function pushPercentage() {
   for (var i = 0; i < Product.all.length; i++){
-    var percentage = ((Product.all[i].votes / Product.all[i].views) * 100);
+    var percentage = (Math.floor((Product.all[i].votes / Product.all[i].views) * 100));
     Product.percentage.push(percentage);
   }
 }
