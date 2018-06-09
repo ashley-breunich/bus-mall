@@ -90,7 +90,6 @@ function handleClick(event) {
     Product.container.removeEventListener('click', handleClick);
     //show the list after the last click
     pushFinalTally();
-    showTally();
     console.log(Product.FinalViews);
     renderChart();
   }
@@ -115,14 +114,14 @@ function pushFinalTally() {
 }
 
 //show the tally using the list in the DOM once the event listener has been removed
-function showTally() {
-  for(var i = 0; i < Product.all.length; i++) {
-    var liEl = document.createElement('li');
-    liEl.textContent = Product.all[i].name + ' has ' + Product.all[i].votes + ' votes and was viewed ' + Product.all[i].views + ' times.';
-    //append the list item to the Product.tally created above globally for the ul
-    Product.tally.appendChild(liEl);
-  }
-}
+// function showTally() {
+//   for(var i = 0; i < Product.all.length; i++) {
+//     var liEl = document.createElement('li');
+//     liEl.textContent = Product.all[i].name + ' has ' + Product.all[i].votes + ' votes and was viewed ' + Product.all[i].views + ' times.';
+//     //append the list item to the Product.tally created above globally for the ul
+//     Product.tally.appendChild(liEl);
+//   }
+// }
 
 //add the chart to the code
 function renderChart() {
