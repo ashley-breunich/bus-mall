@@ -44,7 +44,7 @@ function createProducts() {
 createProducts();
 
 //make random function
-function makeRandom() {
+function randomIndex() {
   return Math.floor(Math.random() * Product.all.length);
 }
 
@@ -53,27 +53,27 @@ function displayPics() {
   var currentlyShowing = [];
 
   //make the left image unique
-  currentlyShowing[0] = makeRandom();
+  currentlyShowing[0] = randomIndex();
   while(currentlyShowing[0] === Product.justViewed[0] || currentlyShowing[0] === Product.justViewed[1] || currentlyShowing[0] === Product.justViewed[2]) {
     console.error('Duplicate in prior view. Get new image!');
-    currentlyShowing[0] = makeRandom();
+    currentlyShowing[0] = randomIndex();
   }
 
   //make the center image unique
-  currentlyShowing[1] = makeRandom();
+  currentlyShowing[1] = randomIndex();
   while(currentlyShowing[1] === currentlyShowing[0] || currentlyShowing[1] === Product.justViewed[0] || currentlyShowing[1] === Product.justViewed[1] || currentlyShowing[1] === Product.justViewed[2]) {
     console.error('Duplicate at center or in prior view! Get new image!');
-    currentlyShowing[1] = makeRandom();
+    currentlyShowing[1] = randomIndex();
   }
 
   //make the right image unique
-  currentlyShowing[2] = makeRandom();
+  currentlyShowing[2] = randomIndex();
   while(currentlyShowing[2] === currentlyShowing[0] || currentlyShowing[2] === currentlyShowing[1] || currentlyShowing[2] === Product.justViewed[0] || currentlyShowing[2] === Product.justViewed[1] || currentlyShowing[2] === Product.justViewed[2]) {
     console.error('Duplicate at right or in prior view! Get new image!');
-    currentlyShowing[2] = makeRandom();
+    currentlyShowing[2] = randomIndex();
   }
 
-  //take it to the DOM
+  //Write it to the page
   for(var i = 0; i < 3; i++) {
     Product.pics[i].src = Product.all[currentlyShowing[i]].filepath;
     Product.pics[i].id = Product.all[currentlyShowing[i]].name;
@@ -89,6 +89,8 @@ function handleClick(event) {
   if(Product.totalClicks > 24) {
     Product.container.removeEventListener('click', handleClick);
     //show the list after the last click
+    var remove = document.getElementById('image_container');
+    remove.innerHTML = '';
     pushFinalTally();
     console.log(Product.FinalViews);
     renderChart();
@@ -113,16 +115,6 @@ function pushFinalTally() {
   }
 }
 
-//show the tally using the list in the DOM once the event listener has been removed
-// function showTally() {
-//   for(var i = 0; i < Product.all.length; i++) {
-//     var liEl = document.createElement('li');
-//     liEl.textContent = Product.all[i].name + ' has ' + Product.all[i].votes + ' votes and was viewed ' + Product.all[i].views + ' times.';
-//     //append the list item to the Product.tally created above globally for the ul
-//     Product.tally.appendChild(liEl);
-//   }
-// }
-
 //add the chart to the code
 function renderChart() {
   var ctx = document.getElementById('myChart').getContext('2d');
@@ -134,7 +126,26 @@ function renderChart() {
         label: '# of Votes',
         data: Product.FinalViews,
         backgroundColor: [
-          'rgba(255, 99, 132)'
+          'rgba(187, 190, 255, .8)',
+          'rgba(255, 241, 184, .8)',
+          'rgba(187, 190, 255, .8)',
+          'rgba(255, 241, 184, .8)',
+          'rgba(187, 190, 255, .8)',
+          'rgba(255, 241, 184, .8)',
+          'rgba(187, 190, 255, .8)',
+          'rgba(255, 241, 184, .8)',
+          'rgba(187, 190, 255, .8)',
+          'rgba(255, 241, 184, .8)',
+          'rgba(187, 190, 255, .8)',
+          'rgba(255, 241, 184, .8)',
+          'rgba(187, 190, 255, .8)',
+          'rgba(255, 241, 184, .8)',
+          'rgba(187, 190, 255, .8)',
+          'rgba(255, 241, 184, .8)',
+          'rgba(187, 190, 255, .8)',
+          'rgba(255, 241, 184, .8)',
+          'rgba(187, 190, 255, .8)',
+          'rgba(255, 241, 184, .8)',
         ],
       }]
     },

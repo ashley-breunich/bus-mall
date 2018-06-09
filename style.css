@@ -1,6 +1,7 @@
 * {
     width: 100%;
     font-family: 'Open Sans Condensed', sans-serif;
+    color: #333;
 }
 
 body {
@@ -10,9 +11,10 @@ body {
 
 h1 {
     text-align: center;
-    margin-top: 100px;
+    margin-top: 80px;
     letter-spacing: 1.7px;
     font-size: 44px;
+    color: #B29000;
 }
 
 p {
