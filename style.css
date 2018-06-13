@@ -50,3 +50,16 @@ img:last-child {
     text-transform: uppercase;
     margin-bottom: 30px;
 }
+
+#clearStorage {
+    width: 150px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background-color: #B29000;
+    color: #fff;
+    padding: 7px;
+    font-size: 14px;
+}

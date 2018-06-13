@@ -211,3 +211,9 @@ function renderSectionChart() {
 
 //create Event handler
 Product.container.addEventListener('click', handleClick);
+
+var clearLS = document.getElementById('clearStorage');
+
+clearLS.addEventListener('click', function(){
+  localStorage.clear();
+});
