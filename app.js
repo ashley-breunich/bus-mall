@@ -114,6 +114,8 @@ function handleClick(event) {
     console.log(Product.percentage);
     renderFirstChart();
     renderSectionChart();
+  } else {
+    pushLocalStorage();
   }
 
   //start to add up the total clicks
