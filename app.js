@@ -12,6 +12,13 @@ Product.finalClicks = [];
 Product.finalViews = [];
 Product.percentage = [];
 
+function pushLocalStorage() {
+  var localStorageData = JSON.stringify(Product.all);
+  localStorage.setItem(Product.all, localStorageData);
+  localStorage.getItem(Product.all, localStorageData);
+  JSON.parse(localStorageData);
+}
+
 //constructor function - template for Product creation
 function Product(filepath, name) {
   this.filepath = filepath;
@@ -102,6 +109,7 @@ function handleClick(event) {
     remove.textContent = '';
     pushFinalTally();
     pushPercentage();
+    pushLocalStorage();
     console.log(Product.finalViews);
     console.log(Product.percentage);
     renderFirstChart();
@@ -209,7 +217,7 @@ function renderSectionChart() {
   });
 }
 
-//create Event handler
+//clear storage button
 Product.container.addEventListener('click', handleClick);
 
 var clearLS = document.getElementById('clearStorage');
