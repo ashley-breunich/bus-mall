@@ -14,9 +14,24 @@ Product.percentage = [];
 
 function pushLocalStorage() {
   var localStorageData = JSON.stringify(Product.all);
-  localStorage.setItem(Product.all, localStorageData);
-  localStorage.getItem(Product.all, localStorageData);
+  localStorage.setItem('Product', localStorageData);
+  localStorage.getItem('Product', localStorageData);
   JSON.parse(localStorageData);
+}
+
+function pushFinalStorage() {
+  var storageFinalClicks = JSON.stringify(Product.finalClicks);
+  localStorage.setItem('Final Clicks', storageFinalClicks);
+  localStorage.getItem('Final Clicks', storageFinalClicks);
+  JSON.parse(storageFinalClicks);
+  var storageFinalViews = JSON.stringify(Product.finalViews);
+  localStorage.setItem('Final Views', storageFinalViews);
+  localStorage.getItem('Final Views', storageFinalViews);
+  JSON.parse(storageFinalViews);
+  var storagePercentage = JSON.stringify(Product.percentage);
+  localStorage.setItem('Percentage Clicked', storagePercentage);
+  localStorage.getItem('Percentage Clicked', storagePercentage);
+  JSON.parse(storagePercentage);
 }
 
 //constructor function - template for Product creation
@@ -109,7 +124,7 @@ function handleClick(event) {
     remove.textContent = '';
     pushFinalTally();
     pushPercentage();
-    pushLocalStorage();
+    pushFinalStorage();
     console.log(Product.finalViews);
     console.log(Product.percentage);
     renderFirstChart();
