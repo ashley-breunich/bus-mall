@@ -12,6 +12,28 @@ Product.finalClicks = [];
 Product.finalViews = [];
 Product.percentage = [];
 
+function pushLocalStorage() {
+  var localStorageData = JSON.stringify(Product.all);
+  localStorage.setItem('Product', localStorageData);
+  localStorage.getItem('Product', localStorageData);
+  JSON.parse(localStorageData);
+}
+
+function pushFinalStorage() {
+  var storageFinalClicks = JSON.stringify(Product.finalClicks);
+  localStorage.setItem('Final Clicks', storageFinalClicks);
+  localStorage.getItem('Final Clicks', storageFinalClicks);
+  JSON.parse(storageFinalClicks);
+  var storageFinalViews = JSON.stringify(Product.finalViews);
+  localStorage.setItem('Final Views', storageFinalViews);
+  localStorage.getItem('Final Views', storageFinalViews);
+  JSON.parse(storageFinalViews);
+  var storagePercentage = JSON.stringify(Product.percentage);
+  localStorage.setItem('Percentage Clicked', storagePercentage);
+  localStorage.getItem('Percentage Clicked', storagePercentage);
+  JSON.parse(storagePercentage);
+}
+
 //constructor function - template for Product creation
 function Product(filepath, name) {
   this.filepath = filepath;
@@ -102,10 +124,13 @@ function handleClick(event) {
     remove.textContent = '';
     pushFinalTally();
     pushPercentage();
+    pushFinalStorage();
     console.log(Product.finalViews);
     console.log(Product.percentage);
     renderFirstChart();
     renderSectionChart();
+  } else {
+    pushLocalStorage();
   }
 
   //start to add up the total clicks
@@ -209,7 +234,7 @@ function renderSectionChart() {
   });
 }
 
-//create Event handler
+//clear storage button
 Product.container.addEventListener('click', handleClick);
 
 var clearLS = document.getElementById('clearStorage');
